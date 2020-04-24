@@ -1,5 +1,7 @@
 #include <iostream>
 #include <algorithm>
+#include <stack>
+#include <vector>
 
 using namespace std;
 
@@ -131,7 +133,8 @@ public:
 
 	void push_back_current_level(string data) {
 		if (head == tail) {
-			head->data = data; head->level = 0;
+			head->data = data; 
+			head->level = 0;
 			head->next = 0;
 		}
 		else {
@@ -163,14 +166,35 @@ public:
 	}
 
 	void print() {
-		Node* temp = head;
+		Node* cur_next = head;
+		Node* cur_down = head;
+		stack<Node*> way;
+		int c = 1;
 
-		while (temp != 0) {
-			for (int i = 0; i < temp->level; i++) cout << " ";
-			cout << temp->level << ". " << temp->data << endl;			
-			if (temp->next == 0 && temp->down != 0) temp = temp->down;
-			else temp = temp->next;
+		while (cur_next != 0) {
+			cur_down = cur_next;
+			c++;
+			
+			while (cur_down != 0) {	
+
+				if (cur_down->next != 0) {
+					way.push(cur_down->next);
+					c--;
+				}
+
+				for (int i = 0; i < cur_down->level; i++) cout << " ";
+				cout << c << ". " << cur_down->data << endl;
+				cur_down = cur_down->down;
+			}
+
+			if (way.size() > 0) {
+				cur_next = way.top();
+				way.pop();
+			}
+			else cur_next = cur_next->next;
 		}
+		
+		
 	}
 	
 	

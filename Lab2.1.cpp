@@ -14,6 +14,8 @@ void main()
     ml.push_back_current_level("Podzagolovok2");
     ml.push_back_next_level("Tekst1");
     ml.push_back_current_level("Tekst2");
+    auto it = ml.begin();
+    it.insNext("Glava2");
 
     ml.print();
 
